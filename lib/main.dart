@@ -40,6 +40,10 @@ class _MyHomePageState extends State<MyHomePage> {
   int g = 255;
   final int k = 90;
 
+  //////////////////////
+  bool deleteThisBoolean = true;
+  //////////////////////
+
   int r_ = 0;
   int g_ = 255;
 
