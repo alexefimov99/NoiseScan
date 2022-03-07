@@ -157,39 +157,66 @@ class _MyHomePageState extends State<MyHomePage> {
           title: Text(widget.title),
           foregroundColor: Color.fromARGB(255, 255, 255, 255),
         ),
+        // body: Builder(builder: (BuildContext context) {
+        //   return TextButton(
+        //       onPressed: startOnPause,
+        //       child: Text(textScanButton),
+        //       // style: ButtonStyle(
+        //       //     backgroundColor: MaterialStateProperty.all<Color>(
+        //       //         Color.fromARGB(255, 228, 129, 0))),
+        //       style: ButtonStyle(
+        //           backgroundColor: MaterialStateProperty.all<Color>(
+        //               Color.fromARGB(255, 255, 153, 0)),
+        //           foregroundColor: MaterialStateProperty.all<Color>(
+        //               Color.fromARGB(255, 0, 0, 0))));
+        // }),
         body: Column(children: [
           Padding(
             padding: const EdgeInsets.all(40),
             child: Align(
-                alignment: Alignment.topCenter,
-                child: Circle(
-                  text: textDb,
-                  r: r_,
-                  g: g_,
-                )),
+              alignment: Alignment.topCenter,
+              child: Circle(
+                text: textDb,
+                r: r_,
+                g: g_,
+              ),
+            ),
           ),
-          Container(
-            height: MediaQuery.of(context).size.height - 530.0,
-            child: Align(
-                alignment: Alignment.bottomCenter,
-                child: ElevatedButton(
-                    onPressed: startOnPause,
-                    child: Text(textScanButton),
-                    style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            Color.fromARGB(255, 228, 129, 0))))),
+          SizedBox(
+            height: MediaQuery.of(context).size.height - 480,
+            width: MediaQuery.of(context).size.width / 2,
+            child: Expanded(
+              child: ElevatedButton(
+                onPressed: startOnPause,
+                child: Text(
+                  textScanButton,
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
           ),
-          // Container(
-          //   height: MediaQuery.of(context).size.height - 465.0,
-          //   child: Align(
-          //       alignment: Alignment.bottomCenter,
-          //       child: ElevatedButton(
-          //           onPressed: saveValues,
-          //           child: Text("textButton"),
-          //           style: ButtonStyle(
-          //               backgroundColor: MaterialStateProperty.all<Color>(
-          //                   Color.fromARGB(255, 14, 172, 0))))),
-          // )
+          //   Container(
+          //     height: MediaQuery.of(context).size.height - 530.0,
+          //     child: Align(
+          //         alignment: Alignment.bottomCenter,
+          //         child: ElevatedButton(
+          //             onPressed: startOnPause,
+          //             child: Text(textScanButton),
+          //             style: ButtonStyle(
+          //                 backgroundColor: MaterialStateProperty.all<Color>(
+          //                     Color.fromARGB(255, 228, 129, 0))))),
+          //   ),
+          //   // Container(
+          //   //   height: MediaQuery.of(context).size.height - 465.0,
+          //   //   child: Align(
+          //   //       alignment: Alignment.bottomCenter,
+          //   //       child: ElevatedButton(
+          //   //           onPressed: saveValues,
+          //   //           child: Text("textButton"),
+          //   //           style: ButtonStyle(
+          //   //               backgroundColor: MaterialStateProperty.all<Color>(
+          //   //                   Color.fromARGB(255, 14, 172, 0))))),
+          //   // )
         ]));
   }
 }
