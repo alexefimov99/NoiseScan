@@ -33,11 +33,15 @@ class _MyHomePageState extends State<MyHomePage> {
 
   int db = 0;
 
+// Delete after release
+  int rDebug = 0;
+  int gDebug = 0;
+
   static const int levelMax = 255;
   static const int maxMicro = 90;
 
   static const List<int> Hz = [125, 250, 500, 1000, 2000, 4000, 8000];
-  var dbValues = List.filled(7, 0);
+  static var dbValues = List.filled(7, 0);
 
   StreamSubscription<NoiseReading>? _noiseSubscription;
   late NoiseMeter _noiseMeter;
@@ -64,6 +68,122 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void saveValues() {}
 
+  Dialog outputValues() {
+    return Dialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
+      elevation: 16,
+      child: Table(
+        border: TableBorder.all(width: 1.0, color: Colors.black),
+        children: [
+          TableRow(
+            children: [
+              TableCell(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    new Text('Hertz'),
+                    new Text('DeciBel'),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          TableRow(
+            children: [
+              TableCell(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    new Text(Hz[0].toString()),
+                    new Text(dbValues[0].toString()),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          TableRow(
+            children: [
+              TableCell(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    new Text(Hz[1].toString()),
+                    new Text(dbValues[1].toString()),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          TableRow(
+            children: [
+              TableCell(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    new Text(Hz[2].toString()),
+                    new Text(dbValues[2].toString()),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          TableRow(
+            children: [
+              TableCell(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    new Text(Hz[3].toString()),
+                    new Text(dbValues[3].toString()),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          TableRow(
+            children: [
+              TableCell(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    new Text(Hz[4].toString()),
+                    new Text(dbValues[4].toString()),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          TableRow(
+            children: [
+              TableCell(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    new Text(Hz[5].toString()),
+                    new Text(dbValues[5].toString()),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          TableRow(
+            children: [
+              TableCell(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    new Text(Hz[6].toString()),
+                    new Text(dbValues[6].toString()),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
   void start() async =>
       _noiseSubscription = _noiseMeter.noiseStream.listen(onData);
 
@@ -71,7 +191,11 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       db = noiseReading.maxDecibel.toInt();
     });
-    debugPrint(noiseReading.meanDecibel.toStringAsFixed(4));
+    debugPrint(noiseReading.meanDecibel.toStringAsFixed(4) +
+        ' ' +
+        rDebug.toString() +
+        ' ' +
+        gDebug.toString());
   }
 
   void onError(Object error) {
@@ -98,13 +222,28 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     String textDb = "$db db";
-    int percent = 100 * db ~/ maxMicro;
+
+    int percent = 100 * db ~/ (maxMicro ~/ 2);
+
+    int r_ = levelMax * percent ~/ 100;
+    int g_ = 255;
+    if (r_ >= 230) {
+      r_ = 255;
+      g_ = 2 * levelMax - levelMax * percent ~/ 100;
+      if (g_ > 255) {
+        g_ = 255;
+      }
+    }
+
+    rDebug = r_;
+    gDebug = g_;
     final Color circleColor = Color.fromARGB(
       153,
-      levelMax * percent ~/ 100,
-      (levelMax - levelMax * percent) ~/ 100,
+      r_,
+      g_,
       0,
     );
+
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 44, 32, 32),
       appBar: AppBar(
@@ -178,31 +317,46 @@ class _MyHomePageState extends State<MyHomePage> {
                 showDialog(
                   context: context,
                   builder: (context) {
-                    return Dialog(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(40)),
-                      elevation: 16,
-                      child: Table(
-                        border:
-                            TableBorder.all(width: 1.0, color: Colors.black),
-                        children: [
-                          TableRow(
-                            children: [
-                              TableCell(
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: <Widget>[
-                                    new Text('Hertz'),
-                                    new Text('DeciBel'),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    );
+                    return outputValues();
+                    // Dialog(
+                    //   shape: RoundedRectangleBorder(
+                    //       borderRadius: BorderRadius.circular(40)),
+                    //   elevation: 16,
+                    //   child: Table(
+                    //     border:
+                    //         TableBorder.all(width: 1.0, color: Colors.black),
+                    //     children: [
+                    //       TableRow(
+                    //         children: [
+                    //           TableCell(
+                    //             child: Row(
+                    //               mainAxisAlignment:
+                    //                   MainAxisAlignment.spaceAround,
+                    //               children: <Widget>[
+                    //                 new Text('Hertz'),
+                    //                 new Text('DeciBel'),
+                    //               ],
+                    //             ),
+                    //           ),
+                    //         ],
+                    //       ),
+                    //       TableRow(
+                    //         children: [
+                    //           TableCell(
+                    //             child: Row(
+                    //               mainAxisAlignment:
+                    //                   MainAxisAlignment.spaceAround,
+                    //               children: <Widget>[
+                    //                 new Text(Hz[1].toString()),
+                    //                 new Text(db.toString()),
+                    //               ],
+                    //             ),
+                    //           ),
+                    //         ],
+                    //       ),
+                    //     ],
+                    //   ),
+                    // );
                   },
                 );
               },
@@ -212,19 +366,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
             ),
-            // alignment: Alignment.bottomCenter,
-            // child: ElevatedButton(
-            //   onPressed: outputValues,
-            //   child: const Text(
-            //     "Вывод значений",
-            //     textAlign: TextAlign.center,
-            //   ),
-            //   style: ButtonStyle(
-            //     backgroundColor: MaterialStateProperty.all<Color>(
-            //       const Color.fromARGB(255, 228, 129, 0),
-            //     ),
-            //   ),
-            // ),
           ),
         ],
       ),
@@ -294,3 +435,14 @@ class Circle extends StatelessWidget {
 // //               style: ButtonStyle(
 // //                   backgroundColor: MaterialStateProperty.all<Color>(
 // //                       Color.fromARGB(255, 228, 129, 0)))),
+
+
+
+    // old formula
+    // int percent = 100 * db ~/ maxMicro;
+    // final Color circleColor = Color.fromARGB(
+    //   153,
+    //   levelMax * percent ~/ 100, // red
+    //   (levelMax - levelMax * percent) ~/ 100, // green
+    //   0,
+    // );
