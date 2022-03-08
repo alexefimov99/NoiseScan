@@ -36,6 +36,9 @@ class _MyHomePageState extends State<MyHomePage> {
   static const int levelMax = 255;
   static const int maxMicro = 90;
 
+  static const List<int> Hz = [125, 250, 500, 1000, 2000, 4000, 8000];
+  var dbValues = List.filled(7, 0);
+
   StreamSubscription<NoiseReading>? _noiseSubscription;
   late NoiseMeter _noiseMeter;
 
@@ -59,6 +62,8 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
+  void saveValues() {}
+
   void start() async =>
       _noiseSubscription = _noiseMeter.noiseStream.listen(onData);
 
@@ -77,7 +82,6 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void stopRecorder() async {
-    db = 0;
     try {
       if (_noiseSubscription != null) {
         _noiseSubscription!.cancel();
@@ -112,30 +116,115 @@ class _MyHomePageState extends State<MyHomePage> {
           Padding(
             padding: const EdgeInsets.all(40),
             child: Align(
-              alignment: Alignment.topCenter,
-              child: Circle(
-                text: textDb,
-                color: circleColor,
+                alignment: Alignment.topCenter,
+                child: Container(
+                  child: Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        textDb,
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 55),
+                      )),
+                  width: 300.0,
+                  height: 300.0,
+                  decoration: BoxDecoration(
+                      color: circleColor,
+                      shape: BoxShape.circle,
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.black12,
+                          blurRadius: 5.0,
+                          spreadRadius: 5.0,
+                          offset: Offset(0, 0),
+                        )
+                      ]),
+                )),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: ElevatedButton(
+              onPressed: startOnPause,
+              child: Text(
+                isRecording ? "Остановить запись" : "Начать запись",
+                textAlign: TextAlign.center,
+              ),
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(
+                  const Color.fromARGB(255, 228, 129, 0),
+                ),
               ),
             ),
           ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height - 480,
-            width: MediaQuery.of(context).size.width / 2,
-            child: Expanded(
-              child: ElevatedButton(
-                onPressed: startOnPause,
-                child: Text(
-                  isRecording ? "Остановить запись" : "Начать запись",
-                  textAlign: TextAlign.center,
-                ),
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(
-                    const Color.fromARGB(255, 228, 129, 0),
-                  ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: ElevatedButton(
+              onPressed: saveValues,
+              child: const Text(
+                "Сохранить значения",
+                textAlign: TextAlign.center,
+              ),
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(
+                  const Color.fromARGB(255, 228, 129, 0),
                 ),
               ),
             ),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: ElevatedButton(
+              child: Text("Output values"),
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return Dialog(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(40)),
+                      elevation: 16,
+                      child: Table(
+                        border:
+                            TableBorder.all(width: 1.0, color: Colors.black),
+                        children: [
+                          TableRow(
+                            children: [
+                              TableCell(
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: <Widget>[
+                                    new Text('Hertz'),
+                                    new Text('DeciBel'),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                );
+              },
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(
+                  const Color.fromARGB(255, 228, 129, 0),
+                ),
+              ),
+            ),
+            // alignment: Alignment.bottomCenter,
+            // child: ElevatedButton(
+            //   onPressed: outputValues,
+            //   child: const Text(
+            //     "Вывод значений",
+            //     textAlign: TextAlign.center,
+            //   ),
+            //   style: ButtonStyle(
+            //     backgroundColor: MaterialStateProperty.all<Color>(
+            //       const Color.fromARGB(255, 228, 129, 0),
+            //     ),
+            //   ),
+            // ),
           ),
         ],
       ),
@@ -167,7 +256,7 @@ class Circle extends StatelessWidget {
       decoration:
           BoxDecoration(color: color, shape: BoxShape.circle, boxShadow: const [
         BoxShadow(
-          color: Colors.black12,
+          color: Color.fromARGB(255, 0, 0, 0),
           blurRadius: 5.0,
           spreadRadius: 5.0,
           offset: Offset(0, 0),
