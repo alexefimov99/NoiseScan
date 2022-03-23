@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:noise_meter/noise_meter.dart';
 
@@ -40,8 +41,40 @@ class _MyHomePageState extends State<MyHomePage> {
   static const int levelMax = 255;
   static const int maxMicro = 90;
 
-  static const List<int> Hz = [125, 250, 500, 1000, 2000, 4000, 8000];
-  static var dbValues = List.filled(7, 0);
+  static const List<int> lHz = [125, 250, 500, 1000, 2000, 4000, 8000];
+
+  static Map<int, double> m_alpha_f = {
+    lHz[0]: 0.349,
+    lHz[1]: 0.301,
+    lHz[2]: 0.267,
+    lHz[3]: 0.250,
+    lHz[4]: 0.249,
+    lHz[5]: 0.242,
+    lHz[6]: 0.254
+  };
+
+  static Map<int, double> mL_U = {
+    lHz[0]: -6.2,
+    lHz[1]: -2.0,
+    lHz[2]: 0.0,
+    lHz[3]: 0.0,
+    lHz[4]: -1.0,
+    lHz[5]: 1.2,
+    lHz[6]: -12.2
+  };
+
+  static Map<int, double> mT_f = {
+    lHz[0]: 22.1,
+    lHz[1]: 11.4,
+    lHz[2]: 4.4,
+    lHz[3]: 2.4,
+    lHz[4]: -1.3,
+    lHz[5]: -5.4,
+    lHz[6]: 12.6
+  };
+
+  // static var dbValues = List.filled(7, 0);
+  static List<double> dbValues = List.filled(7, 0);
 
   StreamSubscription<NoiseReading>? _noiseSubscription;
   late NoiseMeter _noiseMeter;
@@ -68,117 +101,155 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void saveValues() {}
 
+  double calculateFonValue() {
+    int GHz = lHz[3]; // получаем дБ по умолчанию на этой частоте
+
+    double fArg =
+        pow((0.4 * pow(10, ((db + mL_U[GHz]!) / 10) - 9)), m_alpha_f[1000]!)
+            .toDouble();
+    double sArg = pow((0.4 * pow(10, ((mT_f[GHz]! + mL_U[GHz]!) / 10) - 9)),
+            m_alpha_f[GHz]!)
+        .toDouble();
+
+    double B_f = fArg - sArg + 0.005135;
+
+    double L_N = 40 * (log(B_f) / ln10) + 94;
+
+    return L_N;
+  }
+
+  void calculateDbValues(double L_N) {
+    for (int i = 0; i < 7; i++) {
+      double A_f = 4.47 * pow(10, -3) * (pow(10, 0.025 * L_N) - 1.15) +
+          pow(0.4 * pow(10, ((mT_f[lHz[i]]! + mL_U[lHz[i]]!) / 10) - 9),
+              m_alpha_f[lHz[i]]!);
+
+      double L_p =
+          10 / m_alpha_f[lHz[i]]! * (log(A_f) / ln10) - mL_U[lHz[i]]! + 94;
+
+      dbValues[i] = num.parse(L_p.toStringAsFixed(2)).toDouble();
+    }
+  }
+
   Dialog outputValues() {
+    double L_N = calculateFonValue();
+    calculateDbValues(L_N);
+
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
       elevation: 16,
       child: Table(
         border: TableBorder.all(width: 1.0, color: Colors.black),
         children: [
-          TableRow(
-            children: [
-              TableCell(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    new Text('Hertz'),
-                    new Text('DeciBel'),
-                  ],
+          for (int i = 0; i < 8; i++)
+            TableRow(
+              children: [
+                TableCell(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      if (i == 0) new Text('Hertz'),
+                      if (i == 0) new Text('DeciBel'),
+                      if (i > 0) new Text(lHz[i - 1].toString()),
+                      if (i > 0) new Text(dbValues[i - 1].toString()),
+                    ],
+                  ),
                 ),
-              ),
-            ],
-          ),
-          TableRow(
-            children: [
-              TableCell(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    new Text(Hz[0].toString()),
-                    new Text(dbValues[0].toString()),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          TableRow(
-            children: [
-              TableCell(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    new Text(Hz[1].toString()),
-                    new Text(dbValues[1].toString()),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          TableRow(
-            children: [
-              TableCell(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    new Text(Hz[2].toString()),
-                    new Text(dbValues[2].toString()),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          TableRow(
-            children: [
-              TableCell(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    new Text(Hz[3].toString()),
-                    new Text(dbValues[3].toString()),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          TableRow(
-            children: [
-              TableCell(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    new Text(Hz[4].toString()),
-                    new Text(dbValues[4].toString()),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          TableRow(
-            children: [
-              TableCell(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    new Text(Hz[5].toString()),
-                    new Text(dbValues[5].toString()),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          TableRow(
-            children: [
-              TableCell(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    new Text(Hz[6].toString()),
-                    new Text(dbValues[6].toString()),
-                  ],
-                ),
-              ),
-            ],
-          ),
+              ],
+            ),
+          // В случае чего, вместо цикла вернуть закомментированное
+
+          // TableRow(
+          //   children: [
+          //     TableCell(
+          //       child: Row(
+          //         mainAxisAlignment: MainAxisAlignment.spaceAround,
+          //         children: <Widget>[
+          //           new Text(lHz[0].toString()),
+          //           new Text(dbValues[0].toString()),
+          //         ],
+          //       ),
+          //     ),
+          //   ],
+          // ),
+          // TableRow(
+          //   children: [
+          //     TableCell(
+          //       child: Row(
+          //         mainAxisAlignment: MainAxisAlignment.spaceAround,
+          //         children: <Widget>[
+          //           new Text(lHz[1].toString()),
+          //           new Text(dbValues[1].toString()),
+          //         ],
+          //       ),
+          //     ),
+          //   ],
+          // ),
+          // TableRow(
+          //   children: [
+          //     TableCell(
+          //       child: Row(
+          //         mainAxisAlignment: MainAxisAlignment.spaceAround,
+          //         children: <Widget>[
+          //           new Text(lHz[2].toString()),
+          //           new Text(dbValues[2].toString()),
+          //         ],
+          //       ),
+          //     ),
+          //   ],
+          // ),
+          // TableRow(
+          //   children: [
+          //     TableCell(
+          //       child: Row(
+          //         mainAxisAlignment: MainAxisAlignment.spaceAround,
+          //         children: <Widget>[
+          //           new Text(lHz[3].toString()),
+          //           new Text(dbValues[3].toString()),
+          //         ],
+          //       ),
+          //     ),
+          //   ],
+          // ),
+          // TableRow(
+          //   children: [
+          //     TableCell(
+          //       child: Row(
+          //         mainAxisAlignment: MainAxisAlignment.spaceAround,
+          //         children: <Widget>[
+          //           new Text(lHz[4].toString()),
+          //           new Text(dbValues[4].toString()),
+          //         ],
+          //       ),
+          //     ),
+          //   ],
+          // ),
+          // TableRow(
+          //   children: [
+          //     TableCell(
+          //       child: Row(
+          //         mainAxisAlignment: MainAxisAlignment.spaceAround,
+          //         children: <Widget>[
+          //           new Text(lHz[5].toString()),
+          //           new Text(dbValues[5].toString()),
+          //         ],
+          //       ),
+          //     ),
+          //   ],
+          // ),
+          // TableRow(
+          //   children: [
+          //     TableCell(
+          //       child: Row(
+          //         mainAxisAlignment: MainAxisAlignment.spaceAround,
+          //         children: <Widget>[
+          //           new Text(lHz[6].toString()),
+          //           new Text(dbValues[6].toString()),
+          //         ],
+          //       ),
+          //     ),
+          //   ],
+          // ),
         ],
       ),
     );
@@ -279,17 +350,20 @@ class _MyHomePageState extends State<MyHomePage> {
                       ]),
                 )),
           ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: ElevatedButton(
-              onPressed: startOnPause,
-              child: Text(
-                isRecording ? "Остановить запись" : "Начать запись",
-                textAlign: TextAlign.center,
-              ),
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(
-                  const Color.fromARGB(255, 228, 129, 0),
+          SizedBox(
+            width: 1000,
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: ElevatedButton(
+                onPressed: startOnPause,
+                child: Text(
+                  isRecording ? "Остановить запись" : "Начать запись",
+                  textAlign: TextAlign.center,
+                ),
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(
+                    const Color.fromARGB(255, 228, 129, 0),
+                  ),
                 ),
               ),
             ),
