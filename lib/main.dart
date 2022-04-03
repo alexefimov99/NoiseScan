@@ -1,7 +1,15 @@
+// !!! ГРАФИК СТРОИТСЯ ТОЛЬКО ПОСЛЕ ВЫВОДА ЗНАЧЕНИЙ В ТАБЛИЦУ
+// !!! ПЕРЕДЕЛАТЬ РАСЧЕТЫ
+
 import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:noise_meter/noise_meter.dart';
+
+import 'package:charts_flutter/flutter.dart' hide Color, TextStyle;
+
+// Не надо, т.к. не работает
+// import 'package:flutter_sparkline/flutter_sparkline.dart';
 
 void main() {
   runApp(const MyApp());
@@ -29,6 +37,9 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
+const List<int> lHz = [125, 250, 500, 1000, 2000, 4000, 8000];
+List<double> dbValues = List.filled(7, 0);
+
 class _MyHomePageState extends State<MyHomePage> {
   bool isRecording = false;
 
@@ -41,7 +52,8 @@ class _MyHomePageState extends State<MyHomePage> {
   static const int levelMax = 255;
   static const int maxMicro = 90;
 
-  static const List<int> lHz = [125, 250, 500, 1000, 2000, 4000, 8000];
+  // Перенесен в глобальную область видимости
+  // static const List<int> lHz = [125, 250, 500, 1000, 2000, 4000, 8000];
 
   static Map<int, double> m_alpha_f = {
     lHz[0]: 0.349,
@@ -73,8 +85,8 @@ class _MyHomePageState extends State<MyHomePage> {
     lHz[6]: 12.6
   };
 
-  // static var dbValues = List.filled(7, 0);
-  static List<double> dbValues = List.filled(7, 0);
+  // Перенесен в глобальную область видимости
+  // static List<double> dbValues = List.filled(7, 0);
 
   StreamSubscription<NoiseReading>? _noiseSubscription;
   late NoiseMeter _noiseMeter;
@@ -99,8 +111,6 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-  void saveValues() {}
-
   double calculateFonValue() {
     int GHz = lHz[3]; // получаем дБ по умолчанию на этой частоте
 
@@ -112,7 +122,6 @@ class _MyHomePageState extends State<MyHomePage> {
         .toDouble();
 
     double B_f = fArg - sArg + 0.005135;
-
     double L_N = 40 * (log(B_f) / ln10) + 94;
 
     return L_N;
@@ -131,6 +140,7 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
+// Возврат таблицы и ее значений
   Dialog outputValues() {
     double L_N = calculateFonValue();
     calculateDbValues(L_N);
@@ -141,7 +151,8 @@ class _MyHomePageState extends State<MyHomePage> {
       child: Table(
         border: TableBorder.all(width: 1.0, color: Colors.black),
         children: [
-          for (int i = 0; i < 8; i++)
+          //lHz.length + 1, т.к. есть доп. строка
+          for (int i = 0; i < lHz.length + 1; i++)
             TableRow(
               children: [
                 TableCell(
@@ -157,99 +168,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ],
             ),
-          // В случае чего, вместо цикла вернуть закомментированное
-
-          // TableRow(
-          //   children: [
-          //     TableCell(
-          //       child: Row(
-          //         mainAxisAlignment: MainAxisAlignment.spaceAround,
-          //         children: <Widget>[
-          //           new Text(lHz[0].toString()),
-          //           new Text(dbValues[0].toString()),
-          //         ],
-          //       ),
-          //     ),
-          //   ],
-          // ),
-          // TableRow(
-          //   children: [
-          //     TableCell(
-          //       child: Row(
-          //         mainAxisAlignment: MainAxisAlignment.spaceAround,
-          //         children: <Widget>[
-          //           new Text(lHz[1].toString()),
-          //           new Text(dbValues[1].toString()),
-          //         ],
-          //       ),
-          //     ),
-          //   ],
-          // ),
-          // TableRow(
-          //   children: [
-          //     TableCell(
-          //       child: Row(
-          //         mainAxisAlignment: MainAxisAlignment.spaceAround,
-          //         children: <Widget>[
-          //           new Text(lHz[2].toString()),
-          //           new Text(dbValues[2].toString()),
-          //         ],
-          //       ),
-          //     ),
-          //   ],
-          // ),
-          // TableRow(
-          //   children: [
-          //     TableCell(
-          //       child: Row(
-          //         mainAxisAlignment: MainAxisAlignment.spaceAround,
-          //         children: <Widget>[
-          //           new Text(lHz[3].toString()),
-          //           new Text(dbValues[3].toString()),
-          //         ],
-          //       ),
-          //     ),
-          //   ],
-          // ),
-          // TableRow(
-          //   children: [
-          //     TableCell(
-          //       child: Row(
-          //         mainAxisAlignment: MainAxisAlignment.spaceAround,
-          //         children: <Widget>[
-          //           new Text(lHz[4].toString()),
-          //           new Text(dbValues[4].toString()),
-          //         ],
-          //       ),
-          //     ),
-          //   ],
-          // ),
-          // TableRow(
-          //   children: [
-          //     TableCell(
-          //       child: Row(
-          //         mainAxisAlignment: MainAxisAlignment.spaceAround,
-          //         children: <Widget>[
-          //           new Text(lHz[5].toString()),
-          //           new Text(dbValues[5].toString()),
-          //         ],
-          //       ),
-          //     ),
-          //   ],
-          // ),
-          // TableRow(
-          //   children: [
-          //     TableCell(
-          //       child: Row(
-          //         mainAxisAlignment: MainAxisAlignment.spaceAround,
-          //         children: <Widget>[
-          //           new Text(lHz[6].toString()),
-          //           new Text(dbValues[6].toString()),
-          //         ],
-          //       ),
-          //     ),
-          //   ],
-          // ),
         ],
       ),
     );
@@ -323,6 +241,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Column(
         children: [
+          // Отрисовка круга
           Padding(
             padding: const EdgeInsets.all(40),
             child: Align(
@@ -350,6 +269,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       ]),
                 )),
           ),
+          // Кнопка записи/паузы
           SizedBox(
             width: 1000,
             child: Align(
@@ -371,11 +291,17 @@ class _MyHomePageState extends State<MyHomePage> {
           Align(
             alignment: Alignment.bottomCenter,
             child: ElevatedButton(
-              onPressed: saveValues,
               child: const Text(
-                "Сохранить значения",
+                "Показать график",
                 textAlign: TextAlign.center,
               ),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            PointsLineChart(createChart(), false)));
+              },
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all<Color>(
                   const Color.fromARGB(255, 228, 129, 0),
@@ -383,54 +309,16 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
           ),
+          // Кнопка вывода значений в таблице
           Align(
             alignment: Alignment.bottomCenter,
             child: ElevatedButton(
-              child: Text("Output values"),
+              child: Text("Показать значения"),
               onPressed: () {
                 showDialog(
                   context: context,
                   builder: (context) {
                     return outputValues();
-                    // Dialog(
-                    //   shape: RoundedRectangleBorder(
-                    //       borderRadius: BorderRadius.circular(40)),
-                    //   elevation: 16,
-                    //   child: Table(
-                    //     border:
-                    //         TableBorder.all(width: 1.0, color: Colors.black),
-                    //     children: [
-                    //       TableRow(
-                    //         children: [
-                    //           TableCell(
-                    //             child: Row(
-                    //               mainAxisAlignment:
-                    //                   MainAxisAlignment.spaceAround,
-                    //               children: <Widget>[
-                    //                 new Text('Hertz'),
-                    //                 new Text('DeciBel'),
-                    //               ],
-                    //             ),
-                    //           ),
-                    //         ],
-                    //       ),
-                    //       TableRow(
-                    //         children: [
-                    //           TableCell(
-                    //             child: Row(
-                    //               mainAxisAlignment:
-                    //                   MainAxisAlignment.spaceAround,
-                    //               children: <Widget>[
-                    //                 new Text(Hz[1].toString()),
-                    //                 new Text(db.toString()),
-                    //               ],
-                    //             ),
-                    //           ),
-                    //         ],
-                    //       ),
-                    //     ],
-                    //   ),
-                    // );
                   },
                 );
               },
@@ -481,42 +369,45 @@ class Circle extends StatelessWidget {
   }
 }
 
+class PointsLineChart extends StatelessWidget {
+  final List<Series<dynamic, num>> seriesList;
+  final bool animate;
 
- //   Container(
-          //     height: MediaQuery.of(context).size.height - 530.0,
-          //     child: Align(
-          //         alignment: Alignment.bottomCenter,
-          //         child: ElevatedButton(
-          //             onPressed: startOnPause,
-          //             child: Text(textScanButton),
-          //             style: ,
-          //   ),
-          //   // Container(
-          //   //   height: MediaQuery.of(context).size.height - 465.0,
-          //   //   child: Align(
-          //   //       alignment: Alignment.bottomCenter,
-          //   //       child: ElevatedButton(
-          //   //           onPressed: saveValues,
-          //   //           child: Text("textButton"),
-          //   //           style: ButtonStyle(
-          //   //               backgroundColor: MaterialStateProperty.all<Color>(
-          //   //                   Color.fromARGB(255, 14, 172, 0))))),
-          //   // )
+  PointsLineChart(this.seriesList, this.animate);
 
-          // ElevatedButton(
-// //               onPressed: startOnPause,
-// //               child: Text(textScanButton),
-// //               style: ButtonStyle(
-// //                   backgroundColor: MaterialStateProperty.all<Color>(
-// //                       Color.fromARGB(255, 228, 129, 0)))),
+  factory PointsLineChart.withSampleData() {
+    return new PointsLineChart(
+      createChart(),
+      false,
+    );
+  }
 
+  @override
+  Widget build(BuildContext context) {
+    return new LineChart(seriesList,
+        animate: animate,
+        defaultRenderer: new LineRendererConfig(includePoints: true));
+  }
+}
 
+List<Series<LinearSeries, num>> createChart() {
+  final data = [
+    for (int i = 0; i < lHz.length; i++) new LinearSeries(lHz[i], dbValues[i])
+  ];
 
-    // old formula
-    // int percent = 100 * db ~/ maxMicro;
-    // final Color circleColor = Color.fromARGB(
-    //   153,
-    //   levelMax * percent ~/ 100, // red
-    //   (levelMax - levelMax * percent) ~/ 100, // green
-    //   0,
-    // );
+  return [
+    new Series<LinearSeries, num>(
+      id: 'Sound',
+      data: data,
+      domainFn: (LinearSeries noise, int) => noise.lsHz,
+      measureFn: (LinearSeries noise, double) => noise.lsDb,
+    )
+  ];
+}
+
+class LinearSeries {
+  final int lsHz;
+  final double lsDb;
+
+  LinearSeries(this.lsHz, this.lsDb);
+}

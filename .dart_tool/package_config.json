@@ -32,6 +32,18 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "charts_common",
+      "rootUri": "file:///C:/Users/alexe/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/charts_common-0.12.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "charts_flutter",
+      "rootUri": "file:///C:/Users/alexe/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/charts_flutter-0.12.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "clock",
       "rootUri": "file:///C:/Users/alexe/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/clock-1.1.0",
       "packageUri": "lib/",
@@ -74,8 +86,20 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "intl",
+      "rootUri": "file:///C:/Users/alexe/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/intl-0.17.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "lints",
       "rootUri": "file:///C:/Users/alexe/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/lints-1.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "logging",
+      "rootUri": "file:///C:/Users/alexe/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/logging-1.0.2",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -185,10 +209,10 @@
       "name": "flutter_first_app0",
       "rootUri": "../",
       "packageUri": "lib/",
-      "languageVersion": "2.14"
+      "languageVersion": "2.12"
     }
   ],
-  "generated": "2022-02-20T15:43:02.218451Z",
+  "generated": "2022-04-02T15:48:45.332761Z",
   "generator": "pub",
   "generatorVersion": "2.16.1"
 }
