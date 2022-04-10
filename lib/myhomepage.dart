@@ -248,6 +248,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 textAlign: TextAlign.center,
               ),
               onPressed: () {
+                calculateDbValues(calculateFonValue());
                 Navigator.push(
                   context,
                   MaterialPageRoute(

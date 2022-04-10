@@ -1,6 +1,8 @@
 // !!! ГРАФИК СТРОИТСЯ ТОЛЬКО ПОСЛЕ ВЫВОДА ЗНАЧЕНИЙ В ТАБЛИЦУ
 // !!! ПЕРЕДЕЛАТЬ РАСЧЕТЫ
 
+// Выбрать шаг делений на графике
+
 import 'package:flutter/material.dart';
 import 'package:flutter_first_app0/myhomepage.dart';
 

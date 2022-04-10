@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/cybercat/Projects/NoiseScan/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-lt/values-lt.xml",
+            "outputFile": "C:\\Users\\alexe\\source\\repos\\_VS_Code\\Flutter\\flutter_noise_scan-main\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-lt\\values-lt.xml",
             "map": [
                 {
-                    "source": "/Users/cybercat/.gradle/caches/transforms-2/files-2.1/122df2e57d294d1a53db26bbc3b813c1/core-1.6.0/res/values-lt/values-lt.xml",
+                    "source": "C:\\Users\\alexe\\.gradle\\caches\\transforms-2\\files-2.1\\122df2e57d294d1a53db26bbc3b813c1\\core-1.6.0\\res\\values-lt\\values-lt.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
