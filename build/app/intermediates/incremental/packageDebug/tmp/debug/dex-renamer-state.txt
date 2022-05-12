@@ -1,4 +1,4 @@
-#Sun Apr 10 21:38:54 MSK 2022
-base.0=C\:\\Users\\alexe\\source\\repos\\_VS_Code\\Flutter\\flutter_noise_scan-main\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
+#Thu May 12 12:55:28 MSK 2022
+base.0=C\:\\Dev\\_Projects\\NoiseScan\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
 renamed.0=classes.dex
 path.0=classes.dex

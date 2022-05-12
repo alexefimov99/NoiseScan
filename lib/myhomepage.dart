@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_first_app0/pointslinechart.dart';
 import 'package:noise_meter/noise_meter.dart';
 
+import 'package:flutter_first_app0/report.dart';
+
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
 
@@ -53,6 +55,11 @@ class _MyHomePageState extends State<MyHomePage> {
     lHz[6]: 12.6
   };
 
+  // DateTime startTime = DateTime.now();
+  int startSec2ms = DateTime.now().second * 1000 + DateTime.now().millisecond;
+  static List<Map<int, double> > lmResult = [];
+  static int counter = 0;
+
   StreamSubscription<NoiseReading>? _noiseSubscription;
   late NoiseMeter _noiseMeter;
 
@@ -93,6 +100,9 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void calculateDbValues(double ln) {
+    // Расчет мапы для заполнения и хранения нескольких результатов измерений
+    Map<int, double> reportResults = {};
+    
     for (int i = 0; i < 7; i++) {
       double af = 4.47 * pow(10, -3) * (pow(10, 0.025 * ln) - 1.15) +
           pow(0.4 * pow(10, ((mTf[lHz[i]]! + mLU[lHz[i]]!) / 10) - 9),
@@ -101,12 +111,64 @@ class _MyHomePageState extends State<MyHomePage> {
       double lp = 10 / mAlphaF[lHz[i]]! * (log(af) / ln10) - mLU[lHz[i]]! + 94;
 
       dbValues[i] = num.parse(lp.toStringAsFixed(2)).toDouble();
+
+      reportResults[lHz[i]] = dbValues[i];
+      }
+
+    // Заделать в миллисекундах с интервалом в 500
+    // int nowSec2ms = DateTime.now().second * 1000 + DateTime.now().millisecond;
+
+    // if(nowSec2ms - startSec2ms <= 500 && nowSec2ms - startSec2ms >= 0)
+    // {
+    //   lmResult.add(reportResults);
+
+    //   if(DateTime.now().second > 6)
+    //   startSec2ms = nowSec2ms - startSec2ms;
+    // }
+
+    ////////////////////////////////////////////////
+    
+    // int counterRecords = 0;
+    // int nowSec2ms = DateTime.now().second * 1000 + DateTime.now().millisecond;
+
+    // if(nowSec2ms - startSec2ms >= 500)
+    // {
+    //   if(counterRecords > 4)
+    //   {
+    //     lmResult.removeAt(0);
+    //     counterRecords--;
+    //   }
+
+    //   lmResult.add(reportResults);
+    //   startSec2ms = nowSec2ms;
+
+    //   counterRecords++;
+    // }
+
+    ////////////////////////////////////////////////
+    
+    int nowTime = DateTime.now().second * 1000 + DateTime.now().millisecond;
+    nowTime %= 10000;
+    nowTime ~/= 100;
+
+    // int counter = 0;
+    if(nowTime % 5 == 0)
+    {
+      if(counter > 5)
+      {
+        lmResult.removeAt(0);
+        counter--;
+      }
+
+      lmResult.add(reportResults);
+      counter++;
     }
+
   }
 
   Dialog outputValues() {
-    double ln = calculateFonValue();
-    calculateDbValues(ln);
+    // double ln = calculateFonValue();
+    // calculateDbValues(ln);
 
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
@@ -185,6 +247,9 @@ class _MyHomePageState extends State<MyHomePage> {
       g_,
       0,
     );
+
+    double ln = calculateFonValue();
+    calculateDbValues(ln);
 
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 44, 32, 32),
@@ -286,6 +351,37 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
           ),
+          // Кнопка для формирования отчета
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: ElevatedButton(
+              child: const Text(
+                "Сформировать отчёт",
+                textAlign: TextAlign.center,
+              ),
+              onPressed: () {
+                calculateDbValues(calculateFonValue());
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Report(
+                      lmResult: lmResult,
+                    ),
+                    // builder: (context) => PointsLineChart(
+                      // seriesList: createChart(lHz: lHz, dbValues: dbValues),
+                      // animate: false,
+                    // ),
+                  ),
+                );
+              },
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(
+                  const Color.fromARGB(255, 228, 129, 0),
+                ),
+              ),
+            ),
+          ),
+          //////////////////////////////////////////////////
         ],
       ),
     );
