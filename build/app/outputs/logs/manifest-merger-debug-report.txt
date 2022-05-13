@@ -14,11 +14,11 @@ MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\Al
 	android:name
 		INJECTED from C:\Dev\_Projects\NoiseScan\android\app\src\main\AndroidManifest.xml
 manifest
-ADDED from C:\Dev\_Projects\NoiseScan\android\app\src\main\AndroidManifest.xml:1:1-39:12
-INJECTED from C:\Dev\_Projects\NoiseScan\android\app\src\main\AndroidManifest.xml:1:1-39:12
-INJECTED from C:\Dev\_Projects\NoiseScan\android\app\src\main\AndroidManifest.xml:1:1-39:12
-INJECTED from C:\Dev\_Projects\NoiseScan\android\app\src\main\AndroidManifest.xml:1:1-39:12
-MERGED from C:\Dev\_Projects\NoiseScan\android\app\src\main\AndroidManifest.xml:1:1-39:12
+ADDED from C:\Dev\_Projects\NoiseScan\android\app\src\main\AndroidManifest.xml:1:1-40:12
+INJECTED from C:\Dev\_Projects\NoiseScan\android\app\src\main\AndroidManifest.xml:1:1-40:12
+INJECTED from C:\Dev\_Projects\NoiseScan\android\app\src\main\AndroidManifest.xml:1:1-40:12
+INJECTED from C:\Dev\_Projects\NoiseScan\android\app\src\main\AndroidManifest.xml:1:1-40:12
+MERGED from C:\Dev\_Projects\NoiseScan\android\app\src\main\AndroidManifest.xml:1:1-40:12
 MERGED from [:permission_handler_android] C:\Dev\_Projects\NoiseScan\build\permission_handler_android\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:url_launcher_android] C:\Dev\_Projects\NoiseScan\build\url_launcher_android\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-14:12
 MERGED from [:path_provider_android] C:\Dev\_Projects\NoiseScan\build\path_provider_android\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
@@ -49,11 +49,11 @@ INJECTED from C:\Dev\_Projects\NoiseScan\android\app\src\debug\AndroidManifest.x
 		INJECTED from C:\Dev\_Projects\NoiseScan\android\app\src\debug\AndroidManifest.xml
 	android:versionName
 		INJECTED from C:\Dev\_Projects\NoiseScan\android\app\src\main\AndroidManifest.xml
-		ADDED from C:\Dev\_Projects\NoiseScan\android\app\src\main\AndroidManifest.xml:1:1-39:12
+		ADDED from C:\Dev\_Projects\NoiseScan\android\app\src\main\AndroidManifest.xml:1:1-40:12
 		INJECTED from C:\Dev\_Projects\NoiseScan\android\app\src\debug\AndroidManifest.xml
 	android:versionCode
 		INJECTED from C:\Dev\_Projects\NoiseScan\android\app\src\main\AndroidManifest.xml
-		ADDED from C:\Dev\_Projects\NoiseScan\android\app\src\main\AndroidManifest.xml:1:1-39:12
+		ADDED from C:\Dev\_Projects\NoiseScan\android\app\src\main\AndroidManifest.xml:1:1-40:12
 		INJECTED from C:\Dev\_Projects\NoiseScan\android\app\src\debug\AndroidManifest.xml
 	xmlns:android
 		ADDED from C:\Dev\_Projects\NoiseScan\android\app\src\main\AndroidManifest.xml:1:11-69
@@ -61,20 +61,24 @@ uses-permission#android.permission.RECORD_AUDIO
 ADDED from C:\Dev\_Projects\NoiseScan\android\app\src\main\AndroidManifest.xml:35:5-71
 	android:name
 		ADDED from C:\Dev\_Projects\NoiseScan\android\app\src\main\AndroidManifest.xml:35:22-68
+uses-permission#android.permission.MANAGE_EXTERNAL_STORAGE
+ADDED from C:\Dev\_Projects\NoiseScan\android\app\src\main\AndroidManifest.xml:36:5-82
+	android:name
+		ADDED from C:\Dev\_Projects\NoiseScan\android\app\src\main\AndroidManifest.xml:36:22-79
 uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
-ADDED from C:\Dev\_Projects\NoiseScan\android\app\src\main\AndroidManifest.xml:36:5-81
+ADDED from C:\Dev\_Projects\NoiseScan\android\app\src\main\AndroidManifest.xml:37:5-81
 	android:name
-		ADDED from C:\Dev\_Projects\NoiseScan\android\app\src\main\AndroidManifest.xml:36:22-78
+		ADDED from C:\Dev\_Projects\NoiseScan\android\app\src\main\AndroidManifest.xml:37:22-78
 uses-permission#android.permission.READ_EXTERNAL_STORAGE
-ADDED from C:\Dev\_Projects\NoiseScan\android\app\src\main\AndroidManifest.xml:37:5-80
+ADDED from C:\Dev\_Projects\NoiseScan\android\app\src\main\AndroidManifest.xml:38:5-80
 	android:name
-		ADDED from C:\Dev\_Projects\NoiseScan\android\app\src\main\AndroidManifest.xml:37:22-77
+		ADDED from C:\Dev\_Projects\NoiseScan\android\app\src\main\AndroidManifest.xml:38:22-77
 uses-permission#android.permission.INTERNET
-ADDED from C:\Dev\_Projects\NoiseScan\android\app\src\main\AndroidManifest.xml:38:5-66
-MERGED from C:\Dev\_Projects\NoiseScan\android\app\src\main\AndroidManifest.xml:38:5-66
-MERGED from C:\Dev\_Projects\NoiseScan\android\app\src\main\AndroidManifest.xml:38:5-66
+ADDED from C:\Dev\_Projects\NoiseScan\android\app\src\main\AndroidManifest.xml:39:5-66
+MERGED from C:\Dev\_Projects\NoiseScan\android\app\src\main\AndroidManifest.xml:39:5-66
+MERGED from C:\Dev\_Projects\NoiseScan\android\app\src\main\AndroidManifest.xml:39:5-66
 	android:name
-		ADDED from C:\Dev\_Projects\NoiseScan\android\app\src\main\AndroidManifest.xml:38:22-64
+		ADDED from C:\Dev\_Projects\NoiseScan\android\app\src\main\AndroidManifest.xml:39:22-64
 uses-sdk
 INJECTED from C:\Dev\_Projects\NoiseScan\android\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from C:\Dev\_Projects\NoiseScan\android\app\src\main\AndroidManifest.xml

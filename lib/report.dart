@@ -1,9 +1,12 @@
 import 'dart:async';
+// import 'dart:html';
 import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_first_app0/myhomepage.dart';
+import 'package:flutter_first_app0/reportfiled.dart';
+import 'package:flutter_first_app0/reporttable.dart';
 
 import 'package:path_provider/path_provider.dart';
 // import 'package:url_launcher/url_launcher.dart';
@@ -29,7 +32,7 @@ class Report extends StatelessWidget
           padding: EdgeInsets.only(top:25, left:10, right:10),
         color: Color.fromARGB(255, 75, 75, 75),
         child: Text(
-            outputReport(lmResult),//'\n' + lmResult.join('\n\n'),
+            outputReport(lmResult, context),
             textDirection: TextDirection.ltr,
             textAlign: TextAlign.left,
             style: TextStyle(color: Color.fromARGB(255, 213, 138, 0),
@@ -37,29 +40,18 @@ class Report extends StatelessWidget
                 decoration: TextDecoration.none,
             )
           )
+        // child: outputReport(lmResult, context),
         ),
         ////////////////////////////////////////////
         /// Кнопка для выгрузки значений
         Align(
             alignment: Alignment.bottomCenter,
-            //// Comment ID: 1
-            // child: new RaisedButton(
-            //   onPressed: () => saveReport('alex.efimov99@yandex.ru', 'Flutter Email Test', 'Hello Flutter'),
-            //   child: new Text('Send mail'),
-            //   ),
-
-            // Comment ID: 2
             child: ElevatedButton(
               child: const Text("Сохранить отчёт"),
-              onPressed: saveReport,
-              // onPressed: () {
-              //   showDialog(
-              //     context: context,
-              //     builder: (context) {
-              //       // return saveReport();
-              //     },
-              //   );
-              // },
+              // onPressed: saveReport,
+              onPressed: () {
+                saveReport(context);
+              },
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all<Color>(
                   const Color.fromARGB(255, 228, 129, 0),
@@ -71,112 +63,78 @@ class Report extends StatelessWidget
       ],
     );
   }
-
-  //// Comment ID: 1
-  // saveReport(String toMailId, String subject, String body) async
-  // {
-  //   var url = 'mailto:$toMailId?subject=$subject&body=$body';
-    
-  //   if (await canLaunch(url)) {
-  //     await launch(url);
-  //   } else {
-  //     throw 'Could not launch $url';
-  //   }
-  // }
 }
 
-String outputReport(List<Map<int, double> > lValues)
+// Вывод нескольких измерений на экран
+// Table outputReport(List<Map<int, double> > lValues, BuildContext context)
+String outputReport(List<Map<int, double> > lValues, BuildContext context)
 {
-  // permi;
-  String result = '\n';
+  String result = '\n'; // Перенос нужен для более читаемого отображения на устройстве
 
+  List<List<String> >splitStrings = [];
+
+  // List<String> splitString;
   for(int i = 0; i < lValues.length; i++)
   {
-    result += lValues[i].toString() + '\n\n';
-    
-    // final splitted = result.split(', ');
-    // При необходимости разбить строки, чтобы каждая герцовка 
-    // была на новой строке (тогда надо настроить скроллинг страницы, 
-    // иначе не будет хватать места на экране, либо придумать что-нибудь еще)
-  }
+    String temp = lValues[i].toString().replaceAll('{', '').replaceAll('}', '');
 
-  result = result.replaceAll('{', '');
-  result = result.replaceAll('}', '');
+    result += temp + '\n\n';
+    
+    splitStrings.add(temp.split(', '));
+  }
+  print('result: ${result}');
+
 
   str = result;
 
+  CreateTable(splitStrings, context);
+
+  // return Table();
   return result;
 }
 
-// Comment ID: 2
-void saveReport() async
+void saveReport(BuildContext context) async
 {
-  var res = await Permission.manageExternalStorage.status;
-  if(res.isDenied)
-  {
-    print('1');
-  }
-  if(res.isGranted)
-  {
-    print('2');
-  }
-  if(res.isLimited)
-  {
-    print('3');
-  }
-  if(res.isPermanentlyDenied)
-  {
-    print('4');
-  }
-  if(res.isRestricted)
-  {
-    print('5');
-  }
+  // if(await Permission.manageExternalStorage.request().isGranted)
+  // {
+  //   print('manageExernalStorage permission');
+  // }
+  
+  // Проверка на права доступа к хранилищу устройства
+  if(await Permission.storage.request().isGranted)
+  { }
 
-  if(await Permission.manageExternalStorage.request().isGranted)
-  {
-    print('6');
-  }
-
+  // Берем директорию приложения
   var dir = await getExternalStorageDirectory();
-  print('dir: ${dir?.path}');
 
-  String fileName = 'Report.txt';
+  String fileName = 'Report.docx';
   String saveFolder = 'documents';
 
-  var result = Permission.storage.status;
-  print('Result: ${result.isDenied == true} | ${result.isGranted == true} | ${result.isLimited == true} |' +
-   '${result.isPermanentlyDenied == true} | ${result.isRestricted == true}');
   if(dir != null)
   {
+    // Ни в коем случае не костыль, идем в корень к документам (см. if() ниже)
     dir = dir.parent.parent.parent.parent;
-    print('dir another: ${dir.path}');
 
     if(await Directory(dir.path + '/$saveFolder').exists())
     {
-      print('documents is exists');
-
       dir = Directory('${dir.path}/$saveFolder');
-      print('dir path: ${dir.path}');
 
       var file = File('${dir.path}/${fileName}');
-      print(file.path);
-      file.writeAsString('str');
-
+      file.writeAsString('$str');
     }
     else
     {
-      print('nothing exists');
+      const String message = 'Путь не найден или данной директории не существует.';
+
+      // В случае какой-то проблемы будет выведено сообщение
+      OutputMessage(context, message);
     }
   }
+  else
+  {
+    const String message = 'Переменная с указателем пути по какой-то причине равна нулю';
 
-
-  // await file.writeAsString(str);
-
-  // var dir = Directory.fromUri(Uri.directory('UNO\\DUE\\'));
-  // dir.createSync(recursive: true);
-
-  // var file = File('${dir.absolute.path}\demo.txt');
-  // file.writeAsStringSync('ABCDEFHJ');
+    // В случае какой-то проблемы будет выведено сообщение
+    OutputMessage(context, message);
+  }
 }
-

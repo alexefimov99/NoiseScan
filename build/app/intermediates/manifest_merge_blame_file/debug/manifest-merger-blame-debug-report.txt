@@ -12,80 +12,83 @@
 12         to allow setting breakpoints, to provide hot reload, etc.
 13    -->
 14    <uses-permission android:name="android.permission.INTERNET" />
-14-->C:\Dev\_Projects\NoiseScan\android\app\src\main\AndroidManifest.xml:38:5-66
-14-->C:\Dev\_Projects\NoiseScan\android\app\src\main\AndroidManifest.xml:38:22-64
+14-->C:\Dev\_Projects\NoiseScan\android\app\src\main\AndroidManifest.xml:39:5-66
+14-->C:\Dev\_Projects\NoiseScan\android\app\src\main\AndroidManifest.xml:39:22-64
 15    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 15-->C:\Dev\_Projects\NoiseScan\android\app\src\main\AndroidManifest.xml:35:5-71
 15-->C:\Dev\_Projects\NoiseScan\android\app\src\main\AndroidManifest.xml:35:22-68
-16    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-16-->C:\Dev\_Projects\NoiseScan\android\app\src\main\AndroidManifest.xml:36:5-81
-16-->C:\Dev\_Projects\NoiseScan\android\app\src\main\AndroidManifest.xml:36:22-78
-17    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-17-->C:\Dev\_Projects\NoiseScan\android\app\src\main\AndroidManifest.xml:37:5-80
-17-->C:\Dev\_Projects\NoiseScan\android\app\src\main\AndroidManifest.xml:37:22-77
-18
-19    <application
-20        android:name="android.app.Application"
-21        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
-21-->[androidx.core:core:1.6.0] C:\Users\Alexander\.gradle\caches\transforms-2\files-2.1\122df2e57d294d1a53db26bbc3b813c1\core-1.6.0\AndroidManifest.xml:24:18-86
-22        android:debuggable="true"
-23        android:icon="@mipmap/ic_launcher"
-24        android:label="noisescan"
-25        android:requestLegacyExternalStorage="true" >
-26        <activity
-27            android:name="com.example.flutter_first_app0.MainActivity"
-28            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
-29            android:exported="true"
-30            android:hardwareAccelerated="true"
-31            android:launchMode="singleTop"
-32            android:theme="@style/LaunchTheme"
-33            android:windowSoftInputMode="adjustResize" >
-34
-35            <!--
-36                 Specifies an Android theme to apply to this Activity as soon as
-37                 the Android process has started. This theme is visible to the user
-38                 while the Flutter UI initializes. After that, this theme continues
-39                 to determine the Window background behind the Flutter UI.
-40            -->
-41            <meta-data
-42                android:name="io.flutter.embedding.android.NormalTheme"
-43                android:resource="@style/NormalTheme" />
-44
-45            <intent-filter>
-46                <action android:name="android.intent.action.MAIN" />
-47
-48                <category android:name="android.intent.category.LAUNCHER" />
-49            </intent-filter>
-50        </activity>
-51        <!--
-52             Don't delete the meta-data below.
-53             This is used by the Flutter tool to generate GeneratedPluginRegistrant.java
-54        -->
-55        <meta-data
-56            android:name="flutterEmbedding"
-57            android:value="2" />
-58
-59        <activity
-59-->[:url_launcher_android] C:\Dev\_Projects\NoiseScan\build\url_launcher_android\intermediates\library_manifest\debug\AndroidManifest.xml:8:9-11:74
-60            android:name="io.flutter.plugins.urllauncher.WebViewActivity"
-60-->[:url_launcher_android] C:\Dev\_Projects\NoiseScan\build\url_launcher_android\intermediates\library_manifest\debug\AndroidManifest.xml:9:13-74
-61            android:exported="false"
-61-->[:url_launcher_android] C:\Dev\_Projects\NoiseScan\build\url_launcher_android\intermediates\library_manifest\debug\AndroidManifest.xml:10:13-37
-62            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
-62-->[:url_launcher_android] C:\Dev\_Projects\NoiseScan\build\url_launcher_android\intermediates\library_manifest\debug\AndroidManifest.xml:11:13-71
-63
-64        <uses-library
-64-->[androidx.window:window:1.0.0-beta04] C:\Users\Alexander\.gradle\caches\transforms-2\files-2.1\03c633e46d75bfb21f082f0417f55161\jetified-window-1.0.0-beta04\AndroidManifest.xml:25:9-27:40
-65            android:name="androidx.window.extensions"
-65-->[androidx.window:window:1.0.0-beta04] C:\Users\Alexander\.gradle\caches\transforms-2\files-2.1\03c633e46d75bfb21f082f0417f55161\jetified-window-1.0.0-beta04\AndroidManifest.xml:26:13-54
-66            android:required="false" />
-66-->[androidx.window:window:1.0.0-beta04] C:\Users\Alexander\.gradle\caches\transforms-2\files-2.1\03c633e46d75bfb21f082f0417f55161\jetified-window-1.0.0-beta04\AndroidManifest.xml:27:13-37
-67        <uses-library
-67-->[androidx.window:window:1.0.0-beta04] C:\Users\Alexander\.gradle\caches\transforms-2\files-2.1\03c633e46d75bfb21f082f0417f55161\jetified-window-1.0.0-beta04\AndroidManifest.xml:28:9-30:40
-68            android:name="androidx.window.sidecar"
-68-->[androidx.window:window:1.0.0-beta04] C:\Users\Alexander\.gradle\caches\transforms-2\files-2.1\03c633e46d75bfb21f082f0417f55161\jetified-window-1.0.0-beta04\AndroidManifest.xml:29:13-51
-69            android:required="false" />
-69-->[androidx.window:window:1.0.0-beta04] C:\Users\Alexander\.gradle\caches\transforms-2\files-2.1\03c633e46d75bfb21f082f0417f55161\jetified-window-1.0.0-beta04\AndroidManifest.xml:30:13-37
-70    </application>
-71
-72</manifest>
+16    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
+16-->C:\Dev\_Projects\NoiseScan\android\app\src\main\AndroidManifest.xml:36:5-82
+16-->C:\Dev\_Projects\NoiseScan\android\app\src\main\AndroidManifest.xml:36:22-79
+17    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+17-->C:\Dev\_Projects\NoiseScan\android\app\src\main\AndroidManifest.xml:37:5-81
+17-->C:\Dev\_Projects\NoiseScan\android\app\src\main\AndroidManifest.xml:37:22-78
+18    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+18-->C:\Dev\_Projects\NoiseScan\android\app\src\main\AndroidManifest.xml:38:5-80
+18-->C:\Dev\_Projects\NoiseScan\android\app\src\main\AndroidManifest.xml:38:22-77
+19
+20    <application
+21        android:name="android.app.Application"
+22        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+22-->[androidx.core:core:1.6.0] C:\Users\Alexander\.gradle\caches\transforms-2\files-2.1\122df2e57d294d1a53db26bbc3b813c1\core-1.6.0\AndroidManifest.xml:24:18-86
+23        android:debuggable="true"
+24        android:icon="@mipmap/ic_launcher"
+25        android:label="noisescan"
+26        android:requestLegacyExternalStorage="true" >
+27        <activity
+28            android:name="com.example.flutter_first_app0.MainActivity"
+29            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
+30            android:exported="true"
+31            android:hardwareAccelerated="true"
+32            android:launchMode="singleTop"
+33            android:theme="@style/LaunchTheme"
+34            android:windowSoftInputMode="adjustResize" >
+35
+36            <!--
+37                 Specifies an Android theme to apply to this Activity as soon as
+38                 the Android process has started. This theme is visible to the user
+39                 while the Flutter UI initializes. After that, this theme continues
+40                 to determine the Window background behind the Flutter UI.
+41            -->
+42            <meta-data
+43                android:name="io.flutter.embedding.android.NormalTheme"
+44                android:resource="@style/NormalTheme" />
+45
+46            <intent-filter>
+47                <action android:name="android.intent.action.MAIN" />
+48
+49                <category android:name="android.intent.category.LAUNCHER" />
+50            </intent-filter>
+51        </activity>
+52        <!--
+53             Don't delete the meta-data below.
+54             This is used by the Flutter tool to generate GeneratedPluginRegistrant.java
+55        -->
+56        <meta-data
+57            android:name="flutterEmbedding"
+58            android:value="2" />
+59
+60        <activity
+60-->[:url_launcher_android] C:\Dev\_Projects\NoiseScan\build\url_launcher_android\intermediates\library_manifest\debug\AndroidManifest.xml:8:9-11:74
+61            android:name="io.flutter.plugins.urllauncher.WebViewActivity"
+61-->[:url_launcher_android] C:\Dev\_Projects\NoiseScan\build\url_launcher_android\intermediates\library_manifest\debug\AndroidManifest.xml:9:13-74
+62            android:exported="false"
+62-->[:url_launcher_android] C:\Dev\_Projects\NoiseScan\build\url_launcher_android\intermediates\library_manifest\debug\AndroidManifest.xml:10:13-37
+63            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+63-->[:url_launcher_android] C:\Dev\_Projects\NoiseScan\build\url_launcher_android\intermediates\library_manifest\debug\AndroidManifest.xml:11:13-71
+64
+65        <uses-library
+65-->[androidx.window:window:1.0.0-beta04] C:\Users\Alexander\.gradle\caches\transforms-2\files-2.1\03c633e46d75bfb21f082f0417f55161\jetified-window-1.0.0-beta04\AndroidManifest.xml:25:9-27:40
+66            android:name="androidx.window.extensions"
+66-->[androidx.window:window:1.0.0-beta04] C:\Users\Alexander\.gradle\caches\transforms-2\files-2.1\03c633e46d75bfb21f082f0417f55161\jetified-window-1.0.0-beta04\AndroidManifest.xml:26:13-54
+67            android:required="false" />
+67-->[androidx.window:window:1.0.0-beta04] C:\Users\Alexander\.gradle\caches\transforms-2\files-2.1\03c633e46d75bfb21f082f0417f55161\jetified-window-1.0.0-beta04\AndroidManifest.xml:27:13-37
+68        <uses-library
+68-->[androidx.window:window:1.0.0-beta04] C:\Users\Alexander\.gradle\caches\transforms-2\files-2.1\03c633e46d75bfb21f082f0417f55161\jetified-window-1.0.0-beta04\AndroidManifest.xml:28:9-30:40
+69            android:name="androidx.window.sidecar"
+69-->[androidx.window:window:1.0.0-beta04] C:\Users\Alexander\.gradle\caches\transforms-2\files-2.1\03c633e46d75bfb21f082f0417f55161\jetified-window-1.0.0-beta04\AndroidManifest.xml:29:13-51
+70            android:required="false" />
+70-->[androidx.window:window:1.0.0-beta04] C:\Users\Alexander\.gradle\caches\transforms-2\files-2.1\03c633e46d75bfb21f082f0417f55161\jetified-window-1.0.0-beta04\AndroidManifest.xml:30:13-37
+71    </application>
+72
+73</manifest>
