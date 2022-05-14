@@ -113,48 +113,19 @@ class _MyHomePageState extends State<MyHomePage> {
       dbValues[i] = num.parse(lp.toStringAsFixed(2)).toDouble();
 
       reportResults[lHz[i]] = dbValues[i];
-      }
+    }
 
-    // Заделать в миллисекундах с интервалом в 500
-    // int nowSec2ms = DateTime.now().second * 1000 + DateTime.now().millisecond;
-
-    // if(nowSec2ms - startSec2ms <= 500 && nowSec2ms - startSec2ms >= 0)
-    // {
-    //   lmResult.add(reportResults);
-
-    //   if(DateTime.now().second > 6)
-    //   startSec2ms = nowSec2ms - startSec2ms;
-    // }
-
-    ////////////////////////////////////////////////
-    
-    // int counterRecords = 0;
-    // int nowSec2ms = DateTime.now().second * 1000 + DateTime.now().millisecond;
-
-    // if(nowSec2ms - startSec2ms >= 500)
-    // {
-    //   if(counterRecords > 4)
-    //   {
-    //     lmResult.removeAt(0);
-    //     counterRecords--;
-    //   }
-
-    //   lmResult.add(reportResults);
-    //   startSec2ms = nowSec2ms;
-
-    //   counterRecords++;
-    // }
-
-    ////////////////////////////////////////////////
-    
     int nowTime = DateTime.now().second * 1000 + DateTime.now().millisecond;
     nowTime %= 10000;
     nowTime ~/= 100;
 
-    // int counter = 0;
-    if(nowTime % 5 == 0)
+    // Изначально было значение 5
+    // Пишем громкость звука, примерно за 3 секунды
+    if(nowTime % 2 == 0)
     {
-      if(counter > 5)
+      // Также было 5
+      // Для точности измерений станем записывать побольше данных
+      if(counter > 13)
       {
         lmResult.removeAt(0);
         counter--;
@@ -163,7 +134,6 @@ class _MyHomePageState extends State<MyHomePage> {
       lmResult.add(reportResults);
       counter++;
     }
-
   }
 
   Dialog outputValues() {
